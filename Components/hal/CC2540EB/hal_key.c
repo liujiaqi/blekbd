@@ -103,27 +103,27 @@
 #define HAL_KEY_CPU_PORT_2_IF P2IF
 
 #if defined ( CC2540_MINIDK )
-/* SW_1 is at P0.0 */
+/* SW_1 is at P0.6 */
 #define HAL_KEY_SW_1_PORT   P0
-#define HAL_KEY_SW_1_BIT    BV(0)
+#define HAL_KEY_SW_1_BIT    BV(6)
 #define HAL_KEY_SW_1_SEL    P0SEL
 #define HAL_KEY_SW_1_DIR    P0DIR
 
-/* SW_2 is at P0.1 */
+/* SW_2 is at P0.7 */
 #define HAL_KEY_SW_2_PORT   P0
-#define HAL_KEY_SW_2_BIT    BV(1)
+#define HAL_KEY_SW_2_BIT    BV(7)
 #define HAL_KEY_SW_2_SEL    P0SEL
 #define HAL_KEY_SW_2_DIR    P0DIR
 
 #define HAL_KEY_SW_1_IEN      IEN1  /* CPU interrupt mask register */
 #define HAL_KEY_SW_1_ICTL     P0IEN /* Port Interrupt Control register */
-#define HAL_KEY_SW_1_ICTLBIT  BV(0) /* P0IEN - P0.0 enable/disable bit */
+#define HAL_KEY_SW_1_ICTLBIT  BV(6) /* P0IEN - P0.6 enable/disable bit */
 #define HAL_KEY_SW_1_IENBIT   BV(5) /* Mask bit for all of Port_0 */
 
 #define HAL_KEY_SW_1_PXIFG    P0IFG /* Interrupt flag at source */
 #define HAL_KEY_SW_2_IEN      IEN1  /* CPU interrupt mask register */
 #define HAL_KEY_SW_2_ICTL     P0IEN /* Port Interrupt Control register */
-#define HAL_KEY_SW_2_ICTLBIT  BV(1) /* P0IEN - P0.1 enable/disable bit */
+#define HAL_KEY_SW_2_ICTLBIT  BV(7) /* P0IEN - P0.7 enable/disable bit */
 #define HAL_KEY_SW_2_IENBIT   BV(5) /* Mask bit for all of Port_0 */
 #define HAL_KEY_SW_2_PXIFG    P0IFG /* Interrupt flag at source */
 

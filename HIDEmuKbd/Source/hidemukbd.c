@@ -127,7 +127,7 @@
 #define DEFAULT_BONDING_MODE                  TRUE
 
 // Default GAP bonding I/O capabilities
-#define DEFAULT_IO_CAPABILITIES               GAPBOND_IO_CAP_KEYBOARD_ONLY
+#define DEFAULT_IO_CAPABILITIES               GAPBOND_IO_CAP_NO_INPUT_NO_OUTPUT
 
 // Battery level is critical when it is less than this %
 #define DEFAULT_BATT_CRITICAL_LEVEL           6
@@ -321,29 +321,6 @@ void HidEmuKbd_Init( uint8 task_id )
   // Register for all key events - This app will handle all key events
   RegisterForKeys( hidEmuKbdTaskId );
 
-#if defined( CC2540_MINIDK )
-  // makes sure LEDs are off
-  HalLedSet( (HAL_LED_1 | HAL_LED_2), HAL_LED_MODE_OFF );
-
-  // For keyfob board set GPIO pins into a power-optimized state
-  // Note that there is still some leakage current from the buzzer,
-  // accelerometer, LEDs, and buttons on the PCB.
-
-  P0SEL = 0; // Configure Port 0 as GPIO
-  P1SEL = 0; // Configure Port 1 as GPIO
-  P2SEL = 0; // Configure Port 2 as GPIO
-
-  P0DIR = 0xFC; // Port 0 pins P0.0 and P0.1 as input (buttons),
-                // all others (P0.2-P0.7) as output
-  P1DIR = 0xFF; // All port 1 pins (P1.0-P1.7) as output
-  P2DIR = 0x1F; // All port 1 pins (P2.0-P2.4) as output
-
-  P0 = 0x03; // All pins on port 0 to low except for P0.0 and P0.1 (buttons)
-  P1 = 0;   // All pins on port 1 to low
-  P2 = 0;   // All pins on port 2 to low
-
-#endif // #if defined( CC2540_MINIDK )
-
   // Setup a delayed profile startup
   osal_set_event( hidEmuKbdTaskId, START_DEVICE_EVT );
 }
@@ -439,7 +416,7 @@ static void hidEmuKbd_HandleKeys( uint8 shift, uint8 keys )
   if ( (keys & HAL_KEY_SW_1) && (prevKey1 == 0) )
   {
     // pressed
-    hidEmuKbdSendReport( KEY_LEFT_ARROW );
+    hidEmuKbdSendReport( HID_KEYBOARD_CAPS_LOCK );
     prevKey1 = 1;
   }
   else if ( !(keys & HAL_KEY_SW_1) && (prevKey1 == 1) )
@@ -452,7 +429,7 @@ static void hidEmuKbd_HandleKeys( uint8 shift, uint8 keys )
   if ( (keys & HAL_KEY_SW_2) && (prevKey2 == 0) )
   {
     // pressed
-    hidEmuKbdSendReport( KEY_RIGHT_ARROW );
+    hidEmuKbdSendReport( HID_KEYBOARD_A );
     prevKey2 = 1;
   }
   else if ( !(keys & HAL_KEY_SW_2) && (prevKey2 == 1) )
@@ -559,7 +536,7 @@ static uint8 hidEmuKbdRcvReport( uint8 len, uint8 *pData )
   if ( len == HID_LED_OUT_RPT_LEN )
   {
     // set keyfob LEDs
-    HalLedSet( HAL_LED_1, ((*pData & LED_CAPS_LOCK) == LED_CAPS_LOCK) );
+    HalLedSet( HAL_LED_3, ((*pData & LED_CAPS_LOCK) == LED_CAPS_LOCK) );
     HalLedSet( HAL_LED_2, ((*pData & LED_NUM_LOCK) == LED_NUM_LOCK) );
 
     return SUCCESS;

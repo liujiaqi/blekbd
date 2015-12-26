@@ -1,3 +1,5 @@
+*.dep
+*.ewt
 DEBUG/
 settings/
 tags
